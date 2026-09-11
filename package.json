@@ -2,12 +2,12 @@
   "name": "consulta-cnpj-backend",
   "version": "1.0.0",
   "description": "Backend proxy para o site Consulta CNPJ — protege chaves de API e intermedia consultas a provedores de dados.",
-  "main": "server.js",
+  "main": "servidor.js",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
-    "start": "node server.js",
+     "start": "node servidor.js",
     "dev": "node --watch server.js"
   },
   "dependencies": {
