@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Consulta CNPJ Grátis — Cartão CNPJ e Inscrição Estadual</title>
+<meta name="description" content="Consulte gratuitamente dados de empresas, CNPJ, situação cadastral, endereço, CNAE e Inscrição Estadual em um só lugar." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">CN</span>
+      <div class="brand-text">
+        <span class="brand-name">Consulta CNPJ</span>
+        <span class="brand-sub">Consulte gratuitamente dados de empresas e inscrições estaduais.</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Ad slot: top banner -->
+<div class="wrap">
+  <div class="ad-slot ad-top" role="complementary" aria-label="Espaço publicitário">
+    <span>ESPAÇO PUBLICITÁRIO · 728 × 90</span>
+  </div>
+</div>
+
+<main class="wrap main-grid">
+  <div class="main-col">
+
+    <nav class="tabs" role="tablist" aria-label="Tipo de consulta">
+      <button class="tab is-active" id="tab-cnpj" role="tab" aria-selected="true" aria-controls="panel-cnpj">Consultar CNPJ</button>
+      <button class="tab" id="tab-ie" role="tab" aria-selected="false" aria-controls="panel-ie">Inscrição Estadual</button>
+    </nav>
+
+    <!-- ===================== PAINEL 1: CONSULTAR CNPJ ===================== -->
+    <section id="panel-cnpj" class="panel is-active" role="tabpanel" aria-labelledby="tab-cnpj">
+
+      <form id="form-cnpj" class="query-card" autocomplete="off">
+        <label for="input-cnpj" class="query-label">Digite o CNPJ</label>
+        <div class="query-row">
+          <input
+            type="text"
+            id="input-cnpj"
+            class="query-input"
+            inputmode="numeric"
+            placeholder="00.000.000/0000-00"
+            maxlength="18"
+            aria-describedby="cnpj-hint"
+          />
+          <button type="submit" class="btn btn-primary">Consultar CNPJ</button>
+        </div>
+        <p id="cnpj-hint" class="query-hint">Não é necessário cadastro, login ou pagamento.</p>
+      </form>
+
+      <!-- Estado: carregando -->
+      <div id="state-loading" class="state-block is-hidden" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <span>Consultando dados da empresa…</span>
+      </div>
+
+      <!-- Estado: erro de validação -->
+      <div id="state-invalid" class="state-block state-error is-hidden" role="alert">
+        <strong>CNPJ inválido.</strong>
+        <span>Confira os números digitados e tente novamente.</span>
+      </div>
+
+      <!-- Estado: não encontrado -->
+      <div id="state-notfound" class="state-block state-error is-hidden" role="alert">
+        <strong>CNPJ não encontrado.</strong>
+        <span>Não localizamos nenhuma empresa com este número.</span>
+      </div>
+
+      <!-- Estado: erro de API / indisponível -->
+      <div id="state-apierror" class="state-block state-error is-hidden" role="alert">
+        <strong>Não foi possível concluir a consulta.</strong>
+        <span id="apierror-detail">O serviço de dados está indisponível no momento. Tente novamente em alguns instantes.</span>
+      </div>
+
+      <!-- Ad slot: entre busca e resultado -->
+      <div class="ad-slot ad-mid is-hidden" id="ad-mid">
+        <span>ANÚNCIO</span>
+      </div>
+
+      <!-- ===================== RESULTADO ===================== -->
+      <div id="result" class="result is-hidden">
+
+        <div class="result-head">
+          <div>
+            <span class="eyebrow-doc">Consulta cadastral</span>
+            <h1 id="res-razao" class="result-title">—</h1>
+            <p id="res-fantasia" class="result-subtitle"></p>
+          </div>
+          <span id="res-situacao" class="status-pill">—</span>
+        </div>
+
+        <section class="dossier-block">
+          <h2 class="dossier-title">Dados da empresa</h2>
+          <dl class="data-grid">
+            <div class="data-item"><dt>CNPJ</dt><dd id="d-cnpj" class="mono">—</dd></div>
+            <div class="data-item"><dt>Razão social</dt><dd id="d-razao">—</dd></div>
+            <div class="data-item"><dt>Nome fantasia</dt><dd id="d-fantasia">—</dd></div>
+            <div class="data-item"><dt>Situação cadastral</dt><dd id="d-situacao">—</dd></div>
+            <div class="data-item"><dt>Data de abertura</dt><dd id="d-abertura">—</dd></div>
+            <div class="data-item"><dt>Natureza jurídica</dt><dd id="d-natureza">—</dd></div>
+            <div class="data-item"><dt>Porte</dt><dd id="d-porte">—</dd></div>
+            <div class="data-item"><dt>Capital social</dt><dd id="d-capital">—</dd></div>
+            <div class="data-item"><dt>Data da situação cadastral</dt><dd id="d-data-situacao">—</dd></div>
+          </dl>
+        </section>
+
+        <section class="dossier-block">
+          <h2 class="dossier-title">Endereço</h2>
+          <dl class="data-grid">
+            <div class="data-item"><dt>Logradouro</dt><dd id="e-logradouro">—</dd></div>
+            <div class="data-item"><dt>Número</dt><dd id="e-numero">—</dd></div>
+            <div class="data-item"><dt>Complemento</dt><dd id="e-complemento">—</dd></div>
+            <div class="data-item"><dt>Bairro</dt><dd id="e-bairro">—</dd></div>
+            <div class="data-item"><dt>Município</dt><dd id="e-municipio">—</dd></div>
+            <div class="data-item"><dt>UF</dt><dd id="e-uf">—</dd></div>
+            <div class="data-item"><dt>CEP</dt><dd id="e-cep" class="mono">—</dd></div>
+          </dl>
+        </section>
+
+        <section class="dossier-block">
+          <h2 class="dossier-title">Atividades (CNAE)</h2>
+          <dl class="data-grid">
+            <div class="data-item"><dt>CNAE principal</dt><dd id="a-cnae-principal" class="mono">—</dd></div>
+            <div class="data-item data-item-wide"><dt>Descrição da atividade principal</dt><dd id="a-cnae-principal-desc">—</dd></div>
+          </dl>
+          <div id="a-secundarios-wrap" class="is-hidden">
+            <h3 class="dossier-subtitle">Atividades secundárias</h3>
+            <ul id="a-secundarios" class="cnae-list"></ul>
+          </div>
+        </section>
+
+        <section class="dossier-block">
+          <h2 class="dossier-title">Quadro societário</h2>
+          <div id="socios-wrap">
+            <ul id="socios-list" class="socios-list"></ul>
+          </div>
+          <p id="socios-empty" class="empty-note is-hidden">Não foram encontrados sócios disponíveis para este CNPJ.</p>
+        </section>
+
+        <!-- ===================== INSCRIÇÃO ESTADUAL (resultado embutido) ===================== -->
+        <section class="dossier-block dossier-ie">
+          <h2 class="dossier-title">Inscrição estadual</h2>
+
+          <div id="ie-loading" class="state-block is-hidden">
+            <div class="spinner" aria-hidden="true"></div>
+            <span>Consultando inscrição estadual…</span>
+          </div>
+
+          <div id="ie-found" class="is-hidden">
+            <p class="dossier-lead">Inscrições estaduais encontradas</p>
+            <ul id="ie-list" class="ie-list"></ul>
+          </div>
+
+          <p id="ie-empty" class="empty-note is-hidden">Não foi localizada Inscrição Estadual disponível para este CNPJ.</p>
+        </section>
+
+        <div class="result-actions">
+          <button id="btn-pdf" class="btn btn-primary">Baixar consulta em PDF</button>
+          <button id="btn-new" class="btn btn-ghost">Nova consulta</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== PAINEL 2: INSCRIÇÃO ESTADUAL ===================== -->
+    <section id="panel-ie" class="panel" role="tabpanel" aria-labelledby="tab-ie">
+
+      <form id="form-ie" class="query-card" autocomplete="off">
+        <p class="query-label">Consulte por CNPJ, Inscrição Estadual ou UF</p>
+
+        <div class="ie-fields">
+          <div class="field">
+            <label for="ie-input-cnpj">CNPJ</label>
+            <input type="text" id="ie-input-cnpj" class="query-input" inputmode="numeric" placeholder="00.000.000/0000-00" maxlength="18" />
+          </div>
+          <div class="field">
+            <label for="ie-input-insc">Inscrição estadual</label>
+            <input type="text" id="ie-input-insc" class="query-input" placeholder="000.000.000.000" />
+          </div>
+          <div class="field field-uf">
+            <label for="ie-input-uf">UF</label>
+            <select id="ie-input-uf" class="query-input">
+              <option value="">—</option>
+              <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option>
+              <option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option>
+              <option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option>
+              <option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+              <option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option>
+              <option>SE</option><option>TO</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Consultar inscrição estadual</button>
+        <p class="query-hint">Preencha ao menos um campo. Não é necessário cadastro, login ou pagamento.</p>
+      </form>
+
+      <div id="ie2-loading" class="state-block is-hidden">
+        <div class="spinner" aria-hidden="true"></div>
+        <span>Consultando inscrição estadual…</span>
+      </div>
+
+      <div id="ie2-invalid" class="state-block state-error is-hidden" role="alert">
+        <strong>Informe ao menos um campo para consultar.</strong>
+      </div>
+
+      <div id="ie2-apierror" class="state-block state-error is-hidden" role="alert">
+        <strong>Não foi possível concluir a consulta.</strong>
+        <span>O serviço de dados está indisponível no momento. Tente novamente em alguns instantes.</span>
+      </div>
+
+      <div id="ie2-found" class="result is-hidden">
+        <h2 class="dossier-title">Inscrições estaduais encontradas</h2>
+        <ul id="ie2-list" class="ie-list"></ul>
+      </div>
+
+      <p id="ie2-empty" class="empty-note is-hidden">Não foi localizada Inscrição Estadual disponível para este CNPJ.</p>
+
+    </section>
+
+  </div>
+
+  <!-- Ad slot: lateral desktop -->
+  <aside class="ad-slot ad-side" aria-label="Espaço publicitário">
+    <span>ANÚNCIO<br>300 × 600</span>
+  </aside>
+
+</main>
+
+<!-- Ad slot: final da página -->
+<div class="wrap">
+  <div class="ad-slot ad-bottom">
+    <span>ESPAÇO PUBLICITÁRIO · 728 × 90</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>Consulta CNPJ é uma ferramenta gratuita e independente. Os dados exibidos têm caráter informativo e não substituem os documentos oficiais emitidos pelos órgãos governamentais competentes.</p>
+    <nav class="footer-links">
+      <a href="/consulta-cnpj">Consulta CNPJ</a>
+      <a href="/inscricao-estadual">Inscrição Estadual</a>
+      <a href="/cartao-cnpj">Cartão CNPJ</a>
+      <a href="/consulta-empresa">Consulta de Empresa</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
