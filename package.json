@@ -7,7 +7,7 @@
     "node": ">=18"
   },
   "scripts": {
-     "start": "node servidor.js",
+     "start": "node server.js",
     "dev": "node --watch server.js"
   },
   "dependencies": {
