@@ -79,8 +79,11 @@ app.get("/api/ie", async (req, res) => {
 // Provider: CNPJ data (BrasilAPI — real, free, no key required)
 // ------------------------------------------------------------
 async function fetchCNPJData(cnpj) {
-  const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`);
-
+       const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {
+       headers: {
+         "User-Agent": "Mozilla/5.0 (compatible; ConsultaCNPJ/1.0)",
+       },
+     });
   if (response.status === 404) return null;
   if (!response.ok) throw new Error(`BrasilAPI respondeu ${response.status}`);
 
