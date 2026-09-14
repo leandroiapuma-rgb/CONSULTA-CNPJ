@@ -495,6 +495,12 @@ select.query-input { font-family: var(--font-sans); }
   border-bottom: 1px solid transparent;
 }
 .footer-links a:hover { border-color: var(--ink-soft); }
+.footer-badge {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  font-style: italic;
+  padding-bottom: 1px;
+}
 
 /* ============ Responsive: ads reflow on mobile ============ */
 @media (max-width: 900px) {
