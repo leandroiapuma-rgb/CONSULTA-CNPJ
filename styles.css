@@ -107,7 +107,7 @@ a { color: var(--navy); }
 .ad-mid { margin: 24px 0; height: 190px; }        /* anúncio: height: 100px; */
 .ad-side {
   width: 300px;
-  min-height: 450px; /* anúncio: min-height: 600px; */
+  min-height: 400px; /* anúncio: min-height: 600px; */
   flex-shrink: 0;
   align-self: flex-start;
   position: sticky;
